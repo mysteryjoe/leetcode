@@ -1,0 +1,50 @@
+class TrieNode {
+public:
+  TrieNode *next[26];
+  bool isword=0;
+    // Initialize your data structure here.
+    TrieNode() {
+      memset(next,0,sizeof(TrieNode));
+    }
+};
+class Trie {
+public:
+    Trie() {
+        root = new TrieNode();
+    }
+    // Inserts a word into the trie.
+    void insert(string word) {
+        TrieNode *current=root;
+        int size=word.size();
+        for(char c:word){
+            if(!current->next[c-'a'])
+                current->next[c-'a']=new TrieNode;
+                current=current->next[c-'a'];
+        }
+        current->isword=1;
+    }
+    // Returns if the word is in the trie.
+    bool search(string word) {
+        TrieNode *current=root;
+        for(char c:word){
+            if(!current)
+            break;
+            current=current->next[c-'a'];
+        }
+        return current&&current->isword;
+    }
+
+    // Returns if there is any word in the trie
+    // that starts with the given prefix.
+    bool startsWith(string prefix) {
+         TrieNode *current=root;
+        for(char c:prefix){
+            if(!current)
+            break;
+            current=current->next[c-'a'];
+        }
+        return current;
+    }
+private:
+    TrieNode* root;
+};
