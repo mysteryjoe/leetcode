@@ -1,0 +1,49 @@
+class TrieNode {
+public:
+  TrieNode *next[26];
+  bool isword=0;
+    // Initialize your data structure here.
+    TrieNode() {
+      memset(next,0,sizeof(TrieNode));
+    }
+};
+class WordDictionary {
+    private: TrieNode* root;
+public:
+   WordDictionary(){
+       root=new TrieNode;
+   }
+    // Adds a word into the data structure.
+    void addWord(string word) {
+         TrieNode *current=root;
+        int size=word.size();
+        for(char c:word){
+            if(!current->next[c-'a'])
+                current->next[c-'a']=new TrieNode;
+                current=current->next[c-'a'];
+        }
+        current->isword=1;
+    }
+
+    // Returns if the word is in the data structure. A word could
+    // contain the dot character '.' to represent any one letter.
+    bool search(string word) {
+    return find(word.c_str(),root);
+    }
+bool find(const char* word, TrieNode* rootnode){
+        TrieNode *current=rootnode;
+        for(int i=0;word[i]&&current;){
+           char c=word[i++];
+            if(c!='.')
+            current=current->next[c-'a'];
+            else{
+                for(auto son:current->next)
+                if(find(word+i,son))
+                return 1;
+                return 0;
+            }
+        }
+
+        return current&&current->isword;
+    }
+};
