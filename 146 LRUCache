@@ -1,0 +1,44 @@
+class LRUCache{
+public:
+int cap;
+struct element{
+    int value;
+    list<int>::iterator it;
+};
+list<int> keys;
+unordered_map<int,element> cache;
+LRUCache(int capacity) {
+    cap=capacity;
+}
+int get(int key){
+    auto it=cache.find(key);
+    if(it==cache.end())
+    return -1;
+    else 
+    movetohead(it);
+    return it->second.value;
+}
+void set(int key,int value){
+    auto it=cache.find(key);
+    if(it!=cache.end())
+    movetohead(it);
+    else{
+        if(cache.size()==cap){
+            cache.erase(keys.back());
+            keys.pop_back();
+        }
+        keys.push_front(key);
+        }
+        element newelement;
+        newelement.value=value;
+        newelement.it=keys.begin();
+        cache[key]=newelement;
+    }
+    
+    
+void movetohead(unordered_map<int,element>::iterator it){
+ int key=it->first;
+ keys.erase(it->second.it);
+ keys.push_front(key);
+ it->second.it=keys.begin();
+}
