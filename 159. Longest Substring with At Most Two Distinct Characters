@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int lengthOfLongestSubstringTwoDistinct(string s) {
+     int hash[58]={};
+     int size=s.size();
+     int length=0,start=0,end=0,count=0;//total characters included
+     for(;end<size;end++){
+        hash[s[end]-'A']++;
+        if(hash[s[end]-'A']==1){//meet a new character
+        count++;
+        while(count>2){
+            //erase the substring from start
+            hash[s[start]-'A']--;
+           if(hash[s[start]-'A']==0)
+           count--;
+           start++;
+        }
+     }
+        length=max(length,end-start+1);
+       // if(end-start+1==25000)
+        //cout<<start<<" "<<end;
+     }
+     return length;
+    }
+};
