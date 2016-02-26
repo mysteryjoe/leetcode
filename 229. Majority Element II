@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        int major1,major2;
+        int count1=0,count2=0;
+        for(int number:nums){
+            if(!count1||number==major1){
+               count1++;
+                major1=number;
+            }
+         else if(!count2||number==major2){
+            count2++;
+            major2=number;
+            }
+            else{
+                count1--;
+                count2--;
+            }
+        }
+        count1=count2=0;
+        for(int number:nums){
+            if(number==major1)
+            count1++;
+            if(number==major2)
+            count2++;
+        }
+        vector<int> result;
+        if(count1>nums.size()/3)
+        result.push_back(major1);
+         if(count2>nums.size()/3&&major1!=major2)
+        result.push_back(major2);
+        return result;
+        
+    }
+};
