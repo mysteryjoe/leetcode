@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int maxCoins(vector<int>& nums) {
+         nums.push_back(1);
+      nums.insert(nums.begin(),1);
+         int n=nums.size();
+        vector<vector<int>> result(n,vector<int>(n,0));
+       // for(int i=0;i<n-2;i++)
+        //result[i][i+2]=nums[i+1];
+        for(int k=2;k<n;k++){
+            for(int left=0;left<n-k;left++){
+                int right=k+left;
+                for(int i=left+1;i<right;i++){
+                    result[left][right]=max(result[left][right],nums[left]*nums[i]*nums[right]+result[left][i]+result[i][right]);
+                }
+                
+            }
+        }
+        return result[0][n-1];
+    }
+};
